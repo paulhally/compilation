@@ -6,17 +6,12 @@ public class LFonction {
 
 	private Vector<Fonction> listeFonction;
 	private static int id;
-	private Langage lang;
+
 	public LFonction(){
 		listeFonction=new Vector <Fonction>();
 		this.id = id++;
 	}
 
-
-	
-	public void setLang(Langage lang) {
-		this.lang = lang;
-	}
 
 	
 

@@ -129,9 +129,9 @@ ID = [A-Za-z]+[0-9]*
    ------------------------------------------------- */
 {Number}     { System.err.println(" Symbole : " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
 				return new Symbol(TreeSymbol.NUMBER, yyline, yycolumn, new Float(yytext())); }
-				
+
 {ID} {System.err.println(" Symbole id: " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
- 		return new Symbol(TreeSymbol.ID, yyline, yycolumn);}
+ 		return new Symbol(TreeSymbol.ID, yyline, yycolumn, new String(yytext()));}
 
 /* -------------------------------------------------
         Commentaires - Caracteres non pris en compte

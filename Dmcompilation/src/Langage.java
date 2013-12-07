@@ -3,6 +3,7 @@ import java.io.*;
 import java.lang.*;
 import java.util.*;
 
+
 public class Langage {
 
 	private static int id;
@@ -14,11 +15,15 @@ public class Langage {
 	
 	public Langage(LFonction lf, Programme p){
 		listef = new LFonction();
-		listef.setLang(this);
+	
 		this.p = p;
 		this.id = id++;
 	}
-
+	
+	public void ajouterFonction(Fonction f){
+		
+		listef.getListeFonction().add(f);
+	}
 	public Programme getP() {
 		return p;
 	}

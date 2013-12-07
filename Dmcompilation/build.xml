@@ -77,7 +77,7 @@ Lionel
 	symbols="TreeSymbol"
 	expect="0"
 	dump_grammar="false" 
-	dump_states="false" 
+	dump_states="true" 
 	dump_tables="false" 
     force = "true"
 	/>

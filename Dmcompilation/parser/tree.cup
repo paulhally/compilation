@@ -3,9 +3,12 @@
 import java_cup.runtime.*;
 import java.lang.Number;
 
+action code{:
+	Langage lang;
+:}
 parser code {:
 	
-	Langage lang;
+	
 	public void syntax_error(Symbol cur_token){
 
 		report_error("\n Erreur de syntaxe! \n Ligne : "+ cur_token.left + "\n Colonne : " + cur_token.right+"\n\n" ,null);
@@ -17,27 +20,27 @@ parser code {:
 	}
 :}
 
-non terminal Langage langage
+non terminal Langage langage;
 non terminal LFonction liste_fonction;
 non terminal Programme programme;
 non terminal Fonction fonction;
 non terminal liste_parametre;
 non terminal Parametre parametre;
-non terminal LInstruction liste_instruction;
-non terminal Instruction instruction;
+non terminal liste_instruction;
+non terminal instruction;
 non terminal LDeclaration liste_declaration;
 non terminal Declaration declaration;
 non terminal Type type;
-non terminal InstructionIF instructionIF;
-non terminal IntructionFOR instructionFOR;
-non terminal InstructionWhile instructionWHILE;
-non terminal InstrcutionAFF instructionAFF;
-non terminal TestFOR testFOR;
-non terminal TestIF testIF;
-non terminal LTestIF liste_testIF;
-non terminal Operande operande;
-non terminal Comparateur comparateur;
-non terminal ComparateurFOR comparateurFOR;
+non terminal  instructionIF;
+non terminal instructionFOR;
+non terminal  instructionWHILE;
+non terminal  instructionAFF;
+non terminal  testFOR;
+non terminal  testIF;
+non terminal  liste_testIF;
+non terminal  operande;
+non terminal  comparateur;
+non terminal comparateurFOR;
 
 /*
 non terminal langage, liste_fonction, programme, fonction, liste_parametre, parametre;
@@ -50,13 +53,14 @@ non terminal operande, comparateur,comparateurFOR;
 
 terminal OR, AND, PPE, PGE, PPS, PGS, EQ, IMP, NON, EQUI;
 terminal LPAR, RPAR, PLUS, MINUS, TIMES, DIVIDE, MINUS_U, SEMIC;
-terminal MAIN, VIRGULE, IF, ELSE, FOR, WHILE, RACC, LACC, ID;
+terminal MAIN, VIRGULE, IF, ELSE, FOR, WHILE, RACC, LACC;
 terminal INT, FLOAT, BOOL, UNSIGNED, STRING, CHAR;
+terminal String ID;
 terminal Integer NUMBER;
-terminal String CHAINE;
 terminal Float FLOTTANT; 
 terminal Boolean BOOLEEN;
 terminal Char CAR;
+terminal String CHAINE;
 
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE,PPS,PPE,PPE,PGS,EQ,IMP,OR,AND,EQUI;
@@ -69,13 +73,14 @@ langage ::= liste_fonction:lf programme:p {: lang = new Langage(lf, p); RESULT=l
 		|error
 		;
 
-liste_fonction ::= fonction:f liste_fonction:lf {: lang.getLf().getListFontion().add(f); :}
+liste_fonction ::= fonction:f liste_fonction:lf {: lang.ajouterFonction(); :}
 		| 
 		;
 		
-fonction ::= type:t ID LPAR liste_parametre RPAR LACC liste_declaration liste_instruction RACC {: RESULT=new Fonction(t); :}
+fonction ::= type:t ID LPAR liste_parametre RPAR LACC liste_declaration liste_instruction RACC {: RESULT=new Fonction(t); :};
 
-programme ::= MAIN LACC liste_declaration liste_instruction RACC ;
+programme ::= MAIN LACC liste_declaration liste_instruction RACC 
+			;
 
 liste_instruction ::= instruction liste_instruction 
 		| 
@@ -89,11 +94,10 @@ liste_declaration ::= declaration:d liste_declaration {: int size= lang.getLf().
 	//pas sur.....
 declaration ::= type:t ID:i SEMIC {: RESULT = new Declaration(t,i); :}
 		| INT ID:i EQ NUMBER:v SEMIC {: RESULT = new Declaration(EnumType.INTEGER,i,v); :}
-		| FLOAT:t ID EQ FLOTTANT:v SEMIC {: RESULT = new Declaration(t,i,v); :}
-		| UNSIGNED:t ID EQ NUMBER:v SEMIC {: RESULT = new Declaration(t,i,v); :}
-		| BOOL:t ID EQ BOOLEEN:v SEMIC {: RESULT = new Declaration(t,i,v); :}
-		| CHAR:t ID EQ CAR:v SEMIC {: RESULT = new Declaration(t,i,v); :}
-		| STRING:t ID EQ CHAINE:v SEMIC {: RESULT = new Declaration(t,i,v); :}
+		| FLOAT:t ID EQ FLOTTANT:v SEMIC {: RESULT = new Declaration(EnumType.FLOAT,i,v); :}
+		| UNSIGNED:t ID EQ NUMBER:v SEMIC {: RESULT = new Declaration(EnumType.UNSIGNED,i,v); :}
+		| BOOL:t ID EQ BOOLEEN:v SEMIC {: RESULT = new Declaration(EnumType.BOOLEAN,i,v); :}
+		| CHAR:t ID EQ CAR:v SEMIC {: RESULT = new Declaration(EnumType.CHARACTER,i,v); :}
 		;
 		
 liste_parametre ::= parametre:par VIRGULE liste_parametre {: int size= lang.getLf().getListFontion().size(); 
@@ -158,7 +162,7 @@ testFOR ::= ID comparateurFOR ID
 		
 type ::= INT {: RESULT=new Type(EnumType.INTEGER); :}
 		| FLOAT {: RESULT=new Type(EnumType.FLOAT); :}
-		| BOOL {: RESULT=new Type(EnumType.BOOL); :}
-		| CHAR {: RESULT=new Type(EnumType.CHAR); :}
+		| BOOL {: RESULT=new Type(EnumType.BOOLEAN); :}
+		| CHAR {: RESULT=new Type(EnumType.CHARACTER); :}
 		|UNSIGNED {: RESULT=new Type(EnumType.UNSIGNED); :}
 		;
