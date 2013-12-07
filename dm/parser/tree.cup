@@ -4,7 +4,8 @@ import java_cup.runtime.*;
 import java.lang.Number;
 
 parser code {:
-
+	
+	Langage lang;
 	public void syntax_error(Symbol cur_token){
 
 		report_error("\n Erreur de syntaxe! \n Ligne : "+ cur_token.left + "\n Colonne : " + cur_token.right+"\n\n" ,null);
@@ -20,7 +21,7 @@ non terminal Langage langage
 non terminal LFonction liste_fonction;
 non terminal Programme programme;
 non terminal Fonction fonction;
-non terminal LParametre liste_parametre;
+non terminal liste_parametre;
 non terminal Parametre parametre;
 non terminal LInstruction liste_instruction;
 non terminal Instruction instruction;
@@ -64,15 +65,15 @@ precedence left INT, FLOAT, BOOL, UNSIGNED, STRING, CHAR;
 start with langage;
 
 
-langage ::= liste_fonction:lf programme:p {: RESULT = new Langage(lf, p); :}
+langage ::= liste_fonction:lf programme:p {: lang = new Langage(lf, p); RESULT=lang; :}
 		|error
 		;
 
-liste_fonction ::= fonction:f liste_fonction:lf 
+liste_fonction ::= fonction:f liste_fonction:lf {: lang.getLf().getListFontion().add(f); :}
 		| 
 		;
 		
-fonction ::= type ID LPAR liste_parametre RPAR LACC liste_declaration liste_instruction RACC;
+fonction ::= type:t ID LPAR liste_parametre:lp RPAR LACC liste_declaration:ld liste_instruction:li RACC {: RESULT=new Fonction(t,lp,ld,li); :}
 
 programme ::= MAIN LACC liste_declaration liste_instruction RACC ;
 
@@ -80,25 +81,29 @@ liste_instruction ::= instruction liste_instruction
 		| 
 		;
 		
-liste_declaration ::= declaration liste_declaration
+liste_declaration ::= declaration liste_declaration 
 		| 
 		;
 	
 	//pas sur.....
-declaration ::= type:t ID SEMIC 
-		| INT ID EQ NUMBER SEMIC {: RESULT = new Type(EnumType.INTEGER); :}
-		| FLOAT ID EQ FLOTTANT SEMIC {: RESULT = new Type(EnumType.FLOAT); :}
-		| UNSIGNED ID EQ NUMBER SEMIC {: RESULT = new Type(EnumType.UNSIGNED); :}
-		| BOOL ID EQ BOOLEEN SEMIC {: RESULT = new Type(EnumType.BOOLEAN); :}
-		| CHAR ID EQ CAR SEMIC {: RESULT = new Type(EnumType.CHARACTER); :}
-		| STRING ID EQ CHAINE SEMIC {: RESULT = new Type(EnumType.STRING); :}
+declaration ::= type:t ID:i SEMIC {: RESULT = new Declaration(t,i); :}
+		| INT ID:i EQ NUMBER:v SEMIC {: RESULT = new Declaration(EnumType.INTEGER,i,v); :}
+		| FLOAT:t ID EQ FLOTTANT:v SEMIC {: RESULT = new Declaration(t,i,v); :}
+		| UNSIGNED:t ID EQ NUMBER:v SEMIC {: RESULT = new Declaration(t,i,v); :}
+		| BOOL:t ID EQ BOOLEEN:v SEMIC {: RESULT = new Declaration(t,i,v); :}
+		| CHAR:t ID EQ CAR:v SEMIC {: RESULT = new Declaration(t,i,v); :}
+		| STRING:t ID EQ CHAINE:v SEMIC {: RESULT = new Declaration(t,i,v); :}
 		;
 		
-liste_parametre ::= parametre:par VIRGULE liste_parametre 
-		| parametre:par
+liste_parametre ::= parametre:par VIRGULE liste_parametre {: int size= lang.getLf().getListFontion().size(); 
+							lang.getLf().getListFontion().get(size-1).getListeParametre().add(par);
+						:}
+		| parametre:par {: int size= lang.getLf().getListFontion().size(); 
+							lang.getLf().getListFontion().get(size-1).getListeParametre().add(par);
+						:}
 		;
 	
-parametre ::= type ID 
+parametre ::= type:t ID:i {: RESULT = new Parametre(t,i); :}
 			| 
 			;
 
@@ -150,9 +155,9 @@ testFOR ::= ID comparateurFOR ID
 		| ID comparateurFOR NUMBER
 		;
 		
-type ::= INT 
-		| FLOAT 
-		| BOOL 
-		| CHAR 
-		|UNSIGNED 
+type ::= INT {: RESULT=new Type(EnumType.INTEGER); :}
+		| FLOAT {: RESULT=new Type(EnumType.FLOAT); :}
+		| BOOL {: RESULT=new Type(EnumType.BOOL); :}
+		| CHAR {: RESULT=new Type(EnumType.CHAR); :}
+		|UNSIGNED {: RESULT=new Type(EnumType.UNSIGNED); :}
 		;

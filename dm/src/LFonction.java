@@ -3,23 +3,22 @@ import java.util.Vector;
 
 public class LFonction {
 
-	private Fonction fonction;
+
 	private Vector<Fonction> listeFonction;
 	private static int id;
-	
-	public LFcontion(Fonction f){
-		fonction = new Fonction(f);
-		listeFonction.add(fonction);
+	private Langage lang;
+	public LFonction(){
+		listeFonction=new Vector <Fonction>();
 		this.id = id++;
 	}
 
-	public Fonction getFonction() {
-		return fonction;
+
+	
+	public void setLang(Langage lang) {
+		this.lang = lang;
 	}
 
-	public void setFonction(Fonction fonction) {
-		this.fonction = fonction;
-	}
+	
 
 	public Vector<Fonction> getListeFonction() {
 		return listeFonction;

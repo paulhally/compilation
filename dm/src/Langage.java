@@ -6,13 +6,15 @@ import java.util.*;
 public class Langage {
 
 	private static int id;
-	private Vector<LFonction> listefonction;
+	private LFonction listef;
+	private LDeclaration listeDeclaration;
+	
 	private Programme p;
 
 	
 	public Langage(LFonction lf, Programme p){
-		listefonction = new Vector<LFonction>();
-		listefonction.add(fl);
+		listef = new LFonction();
+		listef.setLang(this);
 		this.p = p;
 		this.id = id++;
 	}
@@ -25,12 +27,10 @@ public class Langage {
 		this.p = p;
 	}
 
-	public Vector getLf() {
-		return listefonction;
+	public LFonction getLf() {
+		return listef;
 	}
-	public void setListefonction(LFonction lf){
-		listefonction.add(lf);
-	}
+	
 	
 	
 	
