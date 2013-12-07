@@ -1,0 +1,164 @@
+// CUP specification for a simple expression evaluator (w/ actions)
+
+import java_cup.runtime.*;
+import java.lang.Number;
+
+parser code {:
+	
+	Langage lang;
+	public void syntax_error(Symbol cur_token){
+
+		report_error("\n Erreur de syntaxe! \n Ligne : "+ cur_token.left + "\n Colonne : " + cur_token.right+"\n\n" ,null);
+	}
+
+	public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception{
+		report_fatal_error(" Analyse interrompue (erreur de syntaxe)\n ", null);
+
+	}
+:}
+
+non terminal Langage langage
+non terminal LFonction liste_fonction;
+non terminal Programme programme;
+non terminal Fonction fonction;
+non terminal liste_parametre;
+non terminal Parametre parametre;
+non terminal LInstruction liste_instruction;
+non terminal Instruction instruction;
+non terminal LDeclaration liste_declaration;
+non terminal Declaration declaration;
+non terminal Type type;
+non terminal InstructionIF instructionIF;
+non terminal IntructionFOR instructionFOR;
+non terminal InstructionWhile instructionWHILE;
+non terminal InstrcutionAFF instructionAFF;
+non terminal TestFOR testFOR;
+non terminal TestIF testIF;
+non terminal LTestIF liste_testIF;
+non terminal Operande operande;
+non terminal Comparateur comparateur;
+non terminal ComparateurFOR comparateurFOR;
+
+/*
+non terminal langage, liste_fonction, programme, fonction, liste_parametre, parametre;
+non terminal liste_instruction, instruction, liste_declaration, declaration, type;
+non terminal instructionIF, instructionFOR, instructionWHILE, instructionAFF;
+non terminal testFOR, testIF;
+non terminal liste_testIF;
+non terminal operande, comparateur,comparateurFOR;
+*/
+
+terminal OR, AND, PPE, PGE, PPS, PGS, EQ, IMP, NON, EQUI;
+terminal LPAR, RPAR, PLUS, MINUS, TIMES, DIVIDE, MINUS_U, SEMIC;
+terminal MAIN, VIRGULE, IF, ELSE, FOR, WHILE, RACC, LACC, ID;
+terminal INT, FLOAT, BOOL, UNSIGNED, STRING, CHAR;
+terminal Integer NUMBER;
+terminal String CHAINE;
+terminal Float FLOTTANT; 
+terminal Boolean BOOLEEN;
+terminal Char CAR;
+
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE,PPS,PPE,PPE,PGS,EQ,IMP,OR,AND,EQUI;
+precedence left INT, FLOAT, BOOL, UNSIGNED, STRING, CHAR;
+
+start with langage;
+
+
+langage ::= liste_fonction:lf programme:p {: lang = new Langage(lf, p); RESULT=lang; :}
+		|error
+		;
+
+liste_fonction ::= fonction:f liste_fonction:lf {: lang.getLf().getListFontion().add(f); :}
+		| 
+		;
+		
+fonction ::= type:t ID LPAR liste_parametre RPAR LACC liste_declaration liste_instruction RACC {: RESULT=new Fonction(t); :}
+
+programme ::= MAIN LACC liste_declaration liste_instruction RACC ;
+
+liste_instruction ::= instruction liste_instruction 
+		| 
+		;
+		
+liste_declaration ::= declaration:d liste_declaration {: int size= lang.getLf().getListFontion().size(); 
+							lang.getLf().getListFontion().get(size-1).getListeDeclaration().add(d); :}
+		| 
+		;
+	
+	//pas sur.....
+declaration ::= type:t ID:i SEMIC {: RESULT = new Declaration(t,i); :}
+		| INT ID:i EQ NUMBER:v SEMIC {: RESULT = new Declaration(EnumType.INTEGER,i,v); :}
+		| FLOAT:t ID EQ FLOTTANT:v SEMIC {: RESULT = new Declaration(t,i,v); :}
+		| UNSIGNED:t ID EQ NUMBER:v SEMIC {: RESULT = new Declaration(t,i,v); :}
+		| BOOL:t ID EQ BOOLEEN:v SEMIC {: RESULT = new Declaration(t,i,v); :}
+		| CHAR:t ID EQ CAR:v SEMIC {: RESULT = new Declaration(t,i,v); :}
+		| STRING:t ID EQ CHAINE:v SEMIC {: RESULT = new Declaration(t,i,v); :}
+		;
+		
+liste_parametre ::= parametre:par VIRGULE liste_parametre {: int size= lang.getLf().getListFontion().size(); 
+							lang.getLf().getListFontion().get(size-1).getListeParametre().add(par);
+						:}
+		| parametre:par {: int size= lang.getLf().getListFontion().size(); 
+							lang.getLf().getListFontion().get(size-1).getListeParametre().add(par);
+						:}
+		;
+	
+parametre ::= type:t ID:i {: RESULT = new Parametre(t,i); :}
+			| 
+			;
+
+instruction ::= instructionIF
+		| instructionFOR
+		| instructionAFF
+		| instructionWHILE
+		;
+		
+instructionIF ::= IF LPAR liste_testIF RPAR LACC liste_instruction RACC
+				|IF LPAR liste_testIF RPAR LACC liste_instruction RACC ELSE LACC liste_instruction RACC
+				;
+
+instructionFOR ::= FOR LPAR ID EQ NUMBER SEMIC testFOR SEMIC ID PLUS PLUS RPAR LACC liste_instruction RACC;
+
+instructionAFF ::= ID EQ CHAINE SEMIC
+		| ID EQ NUMBER SEMIC
+		| ID EQ BOOLEEN SEMIC
+		| ID EQ CAR SEMIC
+		;
+		
+instructionWHILE ::= WHILE LPAR liste_testIF RPAR LACC liste_instruction RACC;
+
+liste_testIF ::= liste_testIF operande:o liste_testIF
+		| testIF
+		; 
+
+operande ::= AND 
+		| OR
+		;
+
+testIF ::= ID comparateur:c ID
+		|ID comparateur:c NUMBER
+		|ID EQ EQ CHAINE
+		|NON ID
+		|ID
+		|ID EQ EQ BOOLEEN
+		;
+		
+comparateur ::= PPE| PGE| PPS| PGS| EQ EQ;
+
+comparateurFOR ::= PPE
+				| PGE
+				| PPS
+				| PGS
+				;
+
+testFOR ::= ID comparateurFOR ID 
+		| ID comparateurFOR NUMBER
+		;
+		
+type ::= INT {: RESULT=new Type(EnumType.INTEGER); :}
+		| FLOAT {: RESULT=new Type(EnumType.FLOAT); :}
+		| BOOL {: RESULT=new Type(EnumType.BOOL); :}
+		| CHAR {: RESULT=new Type(EnumType.CHAR); :}
+		|UNSIGNED {: RESULT=new Type(EnumType.UNSIGNED); :}
+		;
