@@ -1,0 +1,52 @@
+ Symbole : int Ligne : 2 Colonne : 0
+ Symbole id: fonction Ligne : 2 Colonne : 4
+ Symbole : ( Ligne : 2 Colonne : 12
+ Symbole : bool Ligne : 2 Colonne : 13
+ Symbole id: valide Ligne : 2 Colonne : 18
+ Symbole : ) Ligne : 2 Colonne : 24
+ Symbole : { Ligne : 2 Colonne : 25
+ Symbole : int Ligne : 3 Colonne : 0
+ Symbole id: i Ligne : 3 Colonne : 4
+ Symbole : ; Ligne : 3 Colonne : 5
+ Symbole : int Ligne : 4 Colonne : 0
+ Symbole id: b Ligne : 4 Colonne : 4
+ Symbole : ; Ligne : 4 Colonne : 5
+ Symbole : if Ligne : 5 Colonne : 0
+ Symbole : ( Ligne : 5 Colonne : 2
+ Symbole id: i Ligne : 5 Colonne : 3
+ Symbole : = Ligne : 5 Colonne : 5
+ Symbole : = Ligne : 5 Colonne : 6
+ Symbole : 5 Ligne : 5 Colonne : 8
+ Symbole : ) Ligne : 5 Colonne : 9
+ Symbole : { Ligne : 5 Colonne : 10
+ Symbole id: b Ligne : 6 Colonne : 0
+ Symbole : = Ligne : 6 Colonne : 2
+ Symbole : 10 Ligne : 6 Colonne : 4
+ Symbole : ; Ligne : 6 Colonne : 6
+ Symbole : } Ligne : 7 Colonne : 0
+ Symbole : } Ligne : 8 Colonne : 0
+ Symbole : main Ligne : 10 Colonne : 0
+ Symbole : { Ligne : 10 Colonne : 5
+ Symbole id: it Ligne : 12 Colonne : 1
+ Symbole id: test Ligne : 12 Colonne : 4
+
+ Erreur de syntaxe! 
+ Ligne : 12
+ Colonne : 4
+
+
+ Symbole : ; Ligne : 12 Colonne : 9
+ Symbole : if Ligne : 14 Colonne : 1
+ Symbole : ( Ligne : 14 Colonne : 3
+ Symbole id: test Ligne : 14 Colonne : 4
+ Symbole : = Ligne : 14 Colonne : 8
+ Symbole : = Ligne : 14 Colonne : 9
+ Symbole : 5 Ligne : 14 Colonne : 10
+ Symbole : ) Ligne : 14 Colonne : 11
+ Symbole : { Ligne : 14 Colonne : 12
+ Symbole id: test Ligne : 15 Colonne : 2
+ Symbole : = Ligne : 15 Colonne : 6
+ Symbole : 1 Ligne : 15 Colonne : 7
+ Symbole : ; Ligne : 15 Colonne : 8
+ Symbole : } Ligne : 16 Colonne : 1
+ Symbole : } Ligne : 18 Colonne : 0

@@ -1,0 +1,19 @@
+
+
+int fonction(bool valide){ 
+int i;
+int b;
+if(i == 5){
+b = 10;
+}
+}
+
+main {
+
+	int test ;
+	
+	if(test==5){
+		test=1;
+	}
+	
+}
