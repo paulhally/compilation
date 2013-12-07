@@ -73,7 +73,7 @@ liste_fonction ::= fonction:f liste_fonction:lf {: lang.getLf().getListFontion()
 		| 
 		;
 		
-fonction ::= type:t ID LPAR liste_parametre:lp RPAR LACC liste_declaration:ld liste_instruction:li RACC {: RESULT=new Fonction(t,lp,ld,li); :}
+fonction ::= type:t ID LPAR liste_parametre RPAR LACC liste_declaration liste_instruction RACC {: RESULT=new Fonction(t); :}
 
 programme ::= MAIN LACC liste_declaration liste_instruction RACC ;
 
@@ -81,7 +81,8 @@ liste_instruction ::= instruction liste_instruction
 		| 
 		;
 		
-liste_declaration ::= declaration liste_declaration 
+liste_declaration ::= declaration:d liste_declaration {: int size= lang.getLf().getListFontion().size(); 
+							lang.getLf().getListFontion().get(size-1).getListeDeclaration().add(d); :}
 		| 
 		;
 	

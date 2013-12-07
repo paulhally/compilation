@@ -7,7 +7,7 @@ public class Langage {
 
 	private static int id;
 	private LFonction listef;
-	private LDeclaration listeDeclaration;
+
 	
 	private Programme p;
 

@@ -27,15 +27,9 @@
  Symbole : } Ligne : 8 Colonne : 0
  Symbole : main Ligne : 10 Colonne : 0
  Symbole : { Ligne : 10 Colonne : 5
- Symbole id: it Ligne : 12 Colonne : 1
- Symbole id: test Ligne : 12 Colonne : 4
-
- Erreur de syntaxe! 
- Ligne : 12
- Colonne : 4
-
-
- Symbole : ; Ligne : 12 Colonne : 9
+ Symbole : int Ligne : 12 Colonne : 1
+ Symbole id: test Ligne : 12 Colonne : 5
+ Symbole : ; Ligne : 12 Colonne : 10
  Symbole : if Ligne : 14 Colonne : 1
  Symbole : ( Ligne : 14 Colonne : 3
  Symbole id: test Ligne : 14 Colonne : 4

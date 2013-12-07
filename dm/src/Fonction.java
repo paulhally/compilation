@@ -6,7 +6,7 @@ public class Fonction {
 	private Type type;
 	private Vector<Parametre> listeParametre;
 	private Vector<Declaration> listeDeclaration;
-	private Vector<Instruction> listeInstruction;
+
 	
 	
 	
@@ -15,7 +15,7 @@ public class Fonction {
 		this.type = type;
 		this.listeParametre = new Vector<Parametre>();
 		this.listeDeclaration = new Vector<Declaration>();
-		this.listeInstruction = new Vector<Instruction>();
+
 	}
 
 
@@ -56,15 +56,6 @@ public class Fonction {
 
 
 
-	public Vector<Instruction> getListeInstruction() {
-		return listeInstruction;
-	}
-
-
-
-	public void setListeInstruction(Vector<Instruction> listeInstruction) {
-		this.listeInstruction = listeInstruction;
-	}
 
 
 
