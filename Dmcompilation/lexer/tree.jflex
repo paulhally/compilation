@@ -10,6 +10,7 @@ import java_cup.runtime.Symbol;
 Number = [[:digit:]]+(\.[[:digit:]]+)?([Ee][+-]?[[:digit:]]+)?
 Comment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 ID = [A-Za-z]+[0-9]*
+CAR=[A-Za-z]
 %%
 
 
@@ -127,11 +128,14 @@ ID = [A-Za-z]+[0-9]*
 /* -------------------------------------------------
         Nombres
    ------------------------------------------------- */
+
 {Number}     { System.err.println(" Symbole : " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
 				return new Symbol(TreeSymbol.NUMBER, yyline, yycolumn, new Float(yytext())); }
 
 {ID} {System.err.println(" Symbole id: " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
- 		return new Symbol(TreeSymbol.ID, yyline, yycolumn, new String(yytext()));}
+ 		return new Symbol(TreeSymbol.ID, yyline, yycolumn, yytext());}
+ {CAR} {System.err.println(" Symbole car: " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
+ 		return new Symbol(TreeSymbol.CAR, yyline, yycolumn, yytext());}
 
 /* -------------------------------------------------
         Commentaires - Caracteres non pris en compte

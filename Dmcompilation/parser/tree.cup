@@ -20,36 +20,8 @@ parser code {:
 	}
 :}
 
-non terminal Langage langage;
-non terminal LFonction liste_fonction;
-non terminal Programme programme;
-non terminal Fonction fonction;
-non terminal liste_parametre;
-non terminal Parametre parametre;
-non terminal liste_instruction;
-non terminal instruction;
-non terminal LDeclaration liste_declaration;
-non terminal Declaration declaration;
-non terminal Type type;
-non terminal  instructionIF;
-non terminal instructionFOR;
-non terminal  instructionWHILE;
-non terminal  instructionAFF;
-non terminal  testFOR;
-non terminal  testIF;
-non terminal  liste_testIF;
-non terminal  operande;
-non terminal  comparateur;
-non terminal comparateurFOR;
 
-/*
-non terminal langage, liste_fonction, programme, fonction, liste_parametre, parametre;
-non terminal liste_instruction, instruction, liste_declaration, declaration, type;
-non terminal instructionIF, instructionFOR, instructionWHILE, instructionAFF;
-non terminal testFOR, testIF;
-non terminal liste_testIF;
-non terminal operande, comparateur,comparateurFOR;
-*/
+
 
 terminal OR, AND, PPE, PGE, PPS, PGS, EQ, IMP, NON, EQUI;
 terminal LPAR, RPAR, PLUS, MINUS, TIMES, DIVIDE, MINUS_U, SEMIC;
@@ -59,8 +31,32 @@ terminal String ID;
 terminal Integer NUMBER;
 terminal Float FLOTTANT; 
 terminal Boolean BOOLEEN;
-terminal Char CAR;
+terminal String CAR;
 terminal String CHAINE;
+
+non terminal Type type;
+non terminal Langage langage;
+non terminal LFonction liste_fonction;
+non terminal Programme programme;
+non terminal Fonction fonction;
+non terminal liste_parametre;
+non terminal Parametre parametre;
+non terminal liste_instruction;
+non terminal instruction;
+non terminal liste_declaration;
+
+non terminal Declaration declaration;
+
+non terminal instructionIF;
+non terminal instructionFOR;
+non terminal  instructionWHILE;
+non terminal  instructionAFF;
+non terminal  testFOR;
+non terminal  testIF;
+non terminal  liste_testIF;
+non terminal  operande;
+non terminal  comparateur;
+non terminal comparateurFOR;
 
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE,PPS,PPE,PPE,PGS,EQ,IMP,OR,AND,EQUI;
@@ -73,7 +69,7 @@ langage ::= liste_fonction:lf programme:p {: lang = new Langage(lf, p); RESULT=l
 		|error
 		;
 
-liste_fonction ::= fonction:f liste_fonction:lf {: lang.ajouterFonction(); :}
+liste_fonction ::= fonction:f liste_fonction:lf {: /*lang.ajouterFonction();*/ :}
 		| 
 		;
 		
@@ -86,25 +82,25 @@ liste_instruction ::= instruction liste_instruction
 		| 
 		;
 		
-liste_declaration ::= declaration:d liste_declaration {: int size= lang.getLf().getListFontion().size(); 
-							lang.getLf().getListFontion().get(size-1).getListeDeclaration().add(d); :}
+liste_declaration ::= declaration:d liste_declaration {: /* int size= lang.getLf().getListFontion().size(); 
+							lang.getLf().getListFontion().get(size-1).getListeDeclaration().add(d); */ :}
 		| 
 		;
 	
-	//pas sur.....
-declaration ::= type:t ID:i SEMIC {: RESULT = new Declaration(t,i); :}
-		| INT ID:i EQ NUMBER:v SEMIC {: RESULT = new Declaration(EnumType.INTEGER,i,v); :}
-		| FLOAT:t ID EQ FLOTTANT:v SEMIC {: RESULT = new Declaration(EnumType.FLOAT,i,v); :}
-		| UNSIGNED:t ID EQ NUMBER:v SEMIC {: RESULT = new Declaration(EnumType.UNSIGNED,i,v); :}
-		| BOOL:t ID EQ BOOLEEN:v SEMIC {: RESULT = new Declaration(EnumType.BOOLEAN,i,v); :}
-		| CHAR:t ID EQ CAR:v SEMIC {: RESULT = new Declaration(EnumType.CHARACTER,i,v); :}
+
+declaration ::= type:t ID:id SEMIC {: RESULT = new Declaration(t,id); :}
+		| INT ID:i EQ NUMBER:v SEMIC {: RESULT = new Declaration(EnumType.INTEGER,i,v.intValue()); :}
+		| FLOAT:t ID:i EQ FLOTTANT:v SEMIC {: RESULT = new Declaration(EnumType.FLOAT,i,v.intValue()); :}
+		| UNSIGNED:t ID:i EQ NUMBER:v SEMIC {: RESULT = new Declaration(EnumType.UNSIGNED,i,v.intValue()); :}
+		| BOOL:t ID:i EQ BOOLEEN:v SEMIC {: RESULT = new Declaration(EnumType.BOOLEAN,i,v); :}
+		| CHAR:t ID:i EQ CAR:v SEMIC {: RESULT = new Declaration(EnumType.CHARACTER,i,v); :}
 		;
 		
-liste_parametre ::= parametre:par VIRGULE liste_parametre {: int size= lang.getLf().getListFontion().size(); 
-							lang.getLf().getListFontion().get(size-1).getListeParametre().add(par);
+liste_parametre ::= parametre:par VIRGULE liste_parametre {:/* int size= lang.getLf().getListFontion().size(); 
+							lang.getLf().getListFontion().get(size-1).getListeParametre().add(par);*/
 						:}
-		| parametre:par {: int size= lang.getLf().getListFontion().size(); 
-							lang.getLf().getListFontion().get(size-1).getListeParametre().add(par);
+		| parametre:par {: /*int size= lang.getLf().getListFontion().size(); 
+							lang.getLf().getListFontion().get(size-1).getListeParametre().add(par);*/
 						:}
 		;
 	

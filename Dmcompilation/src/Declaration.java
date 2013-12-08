@@ -2,7 +2,7 @@
 public class Declaration {
 
 	Type type;
-	char vChar;
+	String vChar;
 	int vInt;
 	boolean vBool;
 	float vFloat;
@@ -25,7 +25,7 @@ public class Declaration {
 		vFloat=valeur;
 	}
 	
-	public Declaration(EnumType t,String id,char valeur){
+	public Declaration(EnumType t,String id,String valeur){
 		type=new Type(t);
 		this.id=id;
 		vChar=valeur;
