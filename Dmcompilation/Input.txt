@@ -1,16 +1,15 @@
+int fonction(int test){ 
 
-
-int fonction(bool valide){ 
-int i;
-int b;
-if(i == 5){
-b = 10;
-}
+ int test ;
+ test=25;
+ 
 }
 
 main {
 
-	int test ;
+	int test;
+	
+	
 	
 	if(test==5){
 		test=1;

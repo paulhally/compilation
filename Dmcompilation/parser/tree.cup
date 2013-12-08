@@ -4,8 +4,11 @@ import java_cup.runtime.*;
 import java.lang.Number;
 
 action code{:
-	Langage lang;
+	Langage lang=new Langage();
+	Fonction fonction=new Fonction();
+	Programme prog=new Programme();
 :}
+
 parser code {:
 	
 	
@@ -39,14 +42,14 @@ non terminal Langage langage;
 non terminal LFonction liste_fonction;
 non terminal Programme programme;
 non terminal Fonction fonction;
-non terminal liste_parametre;
+non terminal listefonction_parametre;
 non terminal Parametre parametre;
-non terminal liste_instruction;
+non terminal listefonction_instruction;
 non terminal instruction;
+non terminal listefonction_declaration;
 non terminal liste_declaration;
-
+non terminal liste_instruction;
 non terminal Declaration declaration;
-
 non terminal instructionIF;
 non terminal instructionFOR;
 non terminal  instructionWHILE;
@@ -65,52 +68,43 @@ precedence left INT, FLOAT, BOOL, UNSIGNED, STRING, CHAR;
 start with langage;
 
 
-langage ::= liste_fonction:lf programme:p {: lang = new Langage(lf, p); RESULT=lang; :}
+langage ::= liste_fonction:lf programme:p {: RESULT=lang; :}
 		|error
 		;
 
-liste_fonction ::= fonction:f liste_fonction:lf {: /*lang.ajouterFonction();*/ :}
+liste_fonction ::= fonction:f liste_fonction:lf {: lang.ajouterFonction(f); fonction.clearListe(); :}
 		| 
 		;
 		
-fonction ::= type:t ID LPAR liste_parametre RPAR LACC liste_declaration liste_instruction RACC {: RESULT=new Fonction(t); :};
+fonction ::= type:t ID LPAR listefonction_parametre RPAR LACC listefonction_declaration listefonction_instruction RACC {: RESULT=fonction; :};
+
+
+listefonction_instruction ::= instruction listefonction_instruction {: System.out.println("hey"); :}
+		| 
+		;
+		
+listefonction_declaration ::= declaration:d listefonction_declaration {:  fonction.ajouterDeclaration(d); :}
+		| 
+		;
+		
+listefonction_parametre ::= parametre:par VIRGULE listefonction_parametre {: fonction.ajouterParametre(par); :}
+		| parametre:par {: fonction.ajouterParametre(par); :}
+		;
+
+
 
 programme ::= MAIN LACC liste_declaration liste_instruction RACC 
 			;
 
-liste_instruction ::= instruction liste_instruction 
-		| 
-		;
-		
-liste_declaration ::= declaration:d liste_declaration {: /* int size= lang.getLf().getListFontion().size(); 
-							lang.getLf().getListFontion().get(size-1).getListeDeclaration().add(d); */ :}
-		| 
-		;
-	
+declaration ::= type:t ID:id SEMIC {:  RESULT = new Declaration(t,id); :} ;
 
-declaration ::= type:t ID:id SEMIC {: RESULT = new Declaration(t,id); :}
-		| INT ID:i EQ NUMBER:v SEMIC {: RESULT = new Declaration(EnumType.INTEGER,i,v.intValue()); :}
-		| FLOAT:t ID:i EQ FLOTTANT:v SEMIC {: RESULT = new Declaration(EnumType.FLOAT,i,v.intValue()); :}
-		| UNSIGNED:t ID:i EQ NUMBER:v SEMIC {: RESULT = new Declaration(EnumType.UNSIGNED,i,v.intValue()); :}
-		| BOOL:t ID:i EQ BOOLEEN:v SEMIC {: RESULT = new Declaration(EnumType.BOOLEAN,i,v); :}
-		| CHAR:t ID:i EQ CAR:v SEMIC {: RESULT = new Declaration(EnumType.CHARACTER,i,v); :}
-		;
-		
-liste_parametre ::= parametre:par VIRGULE liste_parametre {:/* int size= lang.getLf().getListFontion().size(); 
-							lang.getLf().getListFontion().get(size-1).getListeParametre().add(par);*/
-						:}
-		| parametre:par {: /*int size= lang.getLf().getListFontion().size(); 
-							lang.getLf().getListFontion().get(size-1).getListeParametre().add(par);*/
-						:}
-		;
-	
 parametre ::= type:t ID:i {: RESULT = new Parametre(t,i); :}
 			| 
 			;
 
 instruction ::= instructionIF
 		| instructionFOR
-		| instructionAFF
+		| instructionAFF {: System.out.println("hey"); :}
 		| instructionWHILE
 		;
 		
@@ -120,10 +114,10 @@ instructionIF ::= IF LPAR liste_testIF RPAR LACC liste_instruction RACC
 
 instructionFOR ::= FOR LPAR ID EQ NUMBER SEMIC testFOR SEMIC ID PLUS PLUS RPAR LACC liste_instruction RACC;
 
-instructionAFF ::= ID EQ CHAINE SEMIC
-		| ID EQ NUMBER SEMIC
-		| ID EQ BOOLEEN SEMIC
-		| ID EQ CAR SEMIC
+instructionAFF ::= ID:id EQ NUMBER:v SEMIC{: System.out.println("hey"); fonction.affectation(id,String.valueOf(v)); :}
+		| ID:id EQ BOOLEEN:v SEMIC {: System.out.println("hey"); fonction.affectation(id,String.valueOf(v)); :}
+		| ID:id EQ CAR:v SEMIC {: System.out.println("hey"); fonction.affectation(id,String.valueOf(v)); :}
+		| ID:id EQ FLOTTANT:v SEMIC {: System.out.println("hey"); fonction.affectation(id,String.valueOf(v)); :}
 		;
 		
 instructionWHILE ::= WHILE LPAR liste_testIF RPAR LACC liste_instruction RACC;

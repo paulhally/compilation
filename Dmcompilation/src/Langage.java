@@ -13,7 +13,7 @@ public class Langage {
 	private Programme p;
 
 	
-	public Langage(LFonction lf, Programme p){
+	public Langage(){
 		listef = new LFonction();
 	
 		this.p = p;
@@ -23,7 +23,10 @@ public class Langage {
 	public void ajouterFonction(Fonction f){
 		
 		listef.getListeFonction().add(f);
+	
 	}
+	
+	
 	public Programme getP() {
 		return p;
 	}

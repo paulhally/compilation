@@ -7,7 +7,8 @@ import java_cup.runtime.Symbol;
 %cupsym TreeSymbol
 %cup
 
-Number = [[:digit:]]+(\.[[:digit:]]+)?([Ee][+-]?[[:digit:]]+)?
+Float = [[:digit:]]+(\.[[:digit:]]+)?([Ee][+-]?[[:digit:]]+)?
+Entier=[0-9]+
 Comment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 ID = [A-Za-z]+[0-9]*
 CAR=[A-Za-z]
@@ -128,14 +129,22 @@ CAR=[A-Za-z]
 /* -------------------------------------------------
         Nombres
    ------------------------------------------------- */
-
-{Number}     { System.err.println(" Symbole : " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
+{Entier} 	{ System.err.println(" Symbole : " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
 				return new Symbol(TreeSymbol.NUMBER, yyline, yycolumn, new Float(yytext())); }
-
+				
+{Float}     { System.err.println(" Symbole : " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
+				return new Symbol(TreeSymbol.FLOTTANT, yyline, yycolumn, new Float(yytext())); }
+				
+				
+"true" {System.err.println(" Symbole bool true: " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
+ 		return new Symbol(TreeSymbol.BOOLEEN, yyline, yycolumn, new Boolean(true));}
+ 		
+"false" {System.err.println(" Symbole bool false: " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
+ 		return new Symbol(TreeSymbol.BOOLEEN, yyline, yycolumn, new Boolean(false));}
+ 		
 {ID} {System.err.println(" Symbole id: " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
  		return new Symbol(TreeSymbol.ID, yyline, yycolumn, yytext());}
- {CAR} {System.err.println(" Symbole car: " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
- 		return new Symbol(TreeSymbol.CAR, yyline, yycolumn, yytext());}
+
 
 /* -------------------------------------------------
         Commentaires - Caracteres non pris en compte
