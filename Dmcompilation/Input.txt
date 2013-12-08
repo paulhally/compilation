@@ -1,18 +1,22 @@
 int fonction(int test){ 
 
- int test ;
- test=25;
- 
+	int i;
+
+ 	int j;
+	if(i==0){
+		
+		if(j==1){
+			i=5;
+		}
+	}
+
+	return test;
 }
+
+
 
 main {
 
-	int test;
-	
-	
-	
-	if(test==5){
-		test=1;
-	}
+
 	
 }

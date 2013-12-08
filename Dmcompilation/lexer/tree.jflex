@@ -52,7 +52,8 @@ CAR=[A-Za-z]
  "while" {System.err.println(" Symbole : " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
  		return new Symbol(TreeSymbol.WHILE, yyline, yycolumn);}
  
-   
+  "return" {System.err.println(" Symbole : " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
+ 		return new Symbol(TreeSymbol.RETURN, yyline, yycolumn);}
    
 /* -------------------------------------------------
         Operateurs
@@ -112,7 +113,7 @@ CAR=[A-Za-z]
 			return new Symbol(TreeSymbol.EQUI, yyline, yycolumn); }			
 			
 "="      {
-			System.err.println(" Symbole : " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
+			System.err.println(" Symbole EQ : " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
 			return new Symbol(TreeSymbol.EQ, yyline, yycolumn); }
 			
 "->"      {
@@ -130,7 +131,7 @@ CAR=[A-Za-z]
         Nombres
    ------------------------------------------------- */
 {Entier} 	{ System.err.println(" Symbole : " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
-				return new Symbol(TreeSymbol.NUMBER, yyline, yycolumn, new Float(yytext())); }
+				return new Symbol(TreeSymbol.NUMBER, yyline, yycolumn, new Integer(yytext())); }
 				
 {Float}     { System.err.println(" Symbole : " + yytext() + " Ligne : " + yyline + " Colonne : " + yycolumn);
 				return new Symbol(TreeSymbol.FLOTTANT, yyline, yycolumn, new Float(yytext())); }

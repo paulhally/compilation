@@ -7,6 +7,7 @@ action code{:
 	Langage lang=new Langage();
 	Fonction fonction=new Fonction();
 	Programme prog=new Programme();
+	int compteur=0;
 :}
 
 parser code {:
@@ -30,6 +31,7 @@ terminal OR, AND, PPE, PGE, PPS, PGS, EQ, IMP, NON, EQUI;
 terminal LPAR, RPAR, PLUS, MINUS, TIMES, DIVIDE, MINUS_U, SEMIC;
 terminal MAIN, VIRGULE, IF, ELSE, FOR, WHILE, RACC, LACC;
 terminal INT, FLOAT, BOOL, UNSIGNED, STRING, CHAR;
+terminal RETURN;
 terminal String ID;
 terminal Integer NUMBER;
 terminal Float FLOTTANT; 
@@ -46,7 +48,16 @@ non terminal listefonction_parametre;
 non terminal Parametre parametre;
 non terminal listefonction_instruction;
 non terminal instruction;
+non terminal instructionfct;
 non terminal listefonction_declaration;
+non terminal instructionIFfct;
+non terminal instructionFORfct;
+non terminal  instructionWHILEfct;
+non terminal  instructionAFFfct;
+non terminal instructionAppel;
+non terminal  testFORfct;
+non terminal  testIFfct;
+non terminal  liste_testIFfct;
 non terminal liste_declaration;
 non terminal liste_instruction;
 non terminal Declaration declaration;
@@ -72,14 +83,23 @@ langage ::= liste_fonction:lf programme:p {: RESULT=lang; :}
 		|error
 		;
 
-liste_fonction ::= fonction:f liste_fonction:lf {: lang.ajouterFonction(f); fonction.clearListe(); :}
+liste_fonction ::= fonction:f liste_fonction:lf 
 		| 
 		;
 		
-fonction ::= type:t ID LPAR listefonction_parametre RPAR LACC listefonction_declaration listefonction_instruction RACC {: RESULT=fonction; :};
+fonction ::= type:t ID:id LPAR listefonction_parametre RPAR LACC listefonction_declaration listefonction_instruction RETURN ID SEMIC RACC 
+			{: 
+				
+				fonction.setType(t);
+				fonction.setNom(id);
+		
+				lang.ajouterFonction(fonction); 
+				fonction.clearListe();
+			:}
+			;
 
 
-listefonction_instruction ::= instruction listefonction_instruction {: System.out.println("hey"); :}
+listefonction_instruction ::= instructionfct listefonction_instruction  
 		| 
 		;
 		
@@ -91,33 +111,89 @@ listefonction_parametre ::= parametre:par VIRGULE listefonction_parametre {: fon
 		| parametre:par {: fonction.ajouterParametre(par); :}
 		;
 
-
-
-programme ::= MAIN LACC liste_declaration liste_instruction RACC 
-			;
-
-declaration ::= type:t ID:id SEMIC {:  RESULT = new Declaration(t,id); :} ;
-
 parametre ::= type:t ID:i {: RESULT = new Parametre(t,i); :}
 			| 
 			;
+instructionfct ::= instructionIFfct 
+		| instructionFORfct 
+		| instructionAFFfct 
+		| instructionWHILEfct 
+		;
+		
+instructionIFfct ::= IF LPAR liste_testIFfct RPAR LACC listefonction_instruction RACC 
+				|IF LPAR liste_testIFfct RPAR LACC listefonction_instruction RACC ELSE LACC listefonction_instruction RACC
+				;
 
-instruction ::= instructionIF
+
+liste_testIFfct ::= liste_testIFfct operande:o liste_testIFfct
+		| testIFfct
+		; 
+
+
+
+testIFfct ::= ID comparateur:c ID
+		|ID comparateur:c NUMBER
+		|ID EQ EQ CHAINE
+		|NON ID
+		|ID
+		|ID EQ EQ BOOLEEN
+		;
+		
+instructionFORfct ::= FOR LPAR ID EQ NUMBER SEMIC testFORfct SEMIC ID PLUS PLUS RPAR LACC listefonction_instruction RACC{: compteur++; System.out.println("compteur : " +compteur); :};
+
+instructionAFFfct ::= ID:id EQ ID:id2 SEMIC {: fonction.affectation2(id,id2);  :} 
+		| ID:id EQ NUMBER:v SEMIC{:  fonction.affectation(id,String.valueOf(v)); :} 
+		| ID:id EQ BOOLEEN:v SEMIC {:  fonction.affectation(id,String.valueOf(v)); :} 
+		| ID:id EQ CAR:v SEMIC {:  fonction.affectation(id,String.valueOf(v)); :} 
+		| ID:id EQ FLOTTANT:v SEMIC {:  fonction.affectation(id,String.valueOf(v)); :} 
+		;
+		
+instructionWHILEfct ::= WHILE LPAR liste_testIFfct RPAR LACC listefonction_instruction RACC;
+
+
+		
+
+
+testFORfct ::= ID comparateurFOR ID 
+		| ID comparateurFOR NUMBER
+		;
+
+programme ::= MAIN LACC liste_declaration liste_instruction RACC 
+			{: lang.setP(prog); :};
+		
+liste_declaration ::= declaration:d liste_declaration {:  prog.ajouterDeclaration(d); :}
+		| 
+		;
+
+liste_instruction ::= instruction liste_instruction 
+		| 
+		;
+		
+declaration ::= type:t ID:id SEMIC {:  RESULT = new Declaration(t,id); :} ;
+
+
+
+instruction ::=  instructionAppel 
+		|instructionIF
 		| instructionFOR
-		| instructionAFF {: System.out.println("hey"); :}
+		| instructionAFF 
 		| instructionWHILE
 		;
 		
+instructionAppel ::= ID:i EQ ID:i2 LPAR ID:i3 RPAR SEMIC
+			{:  :}
+			;
+	
 instructionIF ::= IF LPAR liste_testIF RPAR LACC liste_instruction RACC
 				|IF LPAR liste_testIF RPAR LACC liste_instruction RACC ELSE LACC liste_instruction RACC
 				;
 
 instructionFOR ::= FOR LPAR ID EQ NUMBER SEMIC testFOR SEMIC ID PLUS PLUS RPAR LACC liste_instruction RACC;
 
-instructionAFF ::= ID:id EQ NUMBER:v SEMIC{: System.out.println("hey"); fonction.affectation(id,String.valueOf(v)); :}
-		| ID:id EQ BOOLEEN:v SEMIC {: System.out.println("hey"); fonction.affectation(id,String.valueOf(v)); :}
-		| ID:id EQ CAR:v SEMIC {: System.out.println("hey"); fonction.affectation(id,String.valueOf(v)); :}
-		| ID:id EQ FLOTTANT:v SEMIC {: System.out.println("hey"); fonction.affectation(id,String.valueOf(v)); :}
+instructionAFF ::= ID:id EQ NUMBER:v SEMIC{:  prog.affectation(id,String.valueOf(v)); :}
+		| ID:id EQ BOOLEEN:v SEMIC {:  prog.affectation(id,String.valueOf(v)); :}
+		| ID:id EQ CAR:v SEMIC {:  prog.affectation(id,String.valueOf(v)); :}
+		| ID:id EQ FLOTTANT:v SEMIC {:  prog.affectation(id,String.valueOf(v)); :}
 		;
 		
 instructionWHILE ::= WHILE LPAR liste_testIF RPAR LACC liste_instruction RACC;
@@ -126,9 +202,7 @@ liste_testIF ::= liste_testIF operande:o liste_testIF
 		| testIF
 		; 
 
-operande ::= AND 
-		| OR
-		;
+
 
 testIF ::= ID comparateur:c ID
 		|ID comparateur:c NUMBER
@@ -138,13 +212,7 @@ testIF ::= ID comparateur:c ID
 		|ID EQ EQ BOOLEEN
 		;
 		
-comparateur ::= PPE| PGE| PPS| PGS| EQ EQ;
 
-comparateurFOR ::= PPE
-				| PGE
-				| PPS
-				| PGS
-				;
 
 testFOR ::= ID comparateurFOR ID 
 		| ID comparateurFOR NUMBER
@@ -156,3 +224,15 @@ type ::= INT {: RESULT=new Type(EnumType.INTEGER); :}
 		| CHAR {: RESULT=new Type(EnumType.CHARACTER); :}
 		|UNSIGNED {: RESULT=new Type(EnumType.UNSIGNED); :}
 		;
+		
+operande ::= AND 
+		| OR
+		;
+		
+comparateur ::= PPE| PGE| PPS| PGS| EQ EQ;
+
+comparateurFOR ::= PPE
+				| PGE
+				| PPS
+				| PGS
+				;
