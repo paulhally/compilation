@@ -7,7 +7,7 @@ public class Fonction {
 	private String nom=new String();
 	private Vector<Parametre> listeParametre;
 	private Vector<Declaration> listeDeclaration;
-
+	private Vector<Instruction> listeInstruction;
 	
 	
 	
@@ -16,9 +16,12 @@ public class Fonction {
 	
 		this.listeParametre = new Vector<Parametre>();
 		this.listeDeclaration = new Vector<Declaration>();
-
+		this.listeInstruction=new Vector<Instruction>();
 	}
 	
+	public void ajouterInstruction(Instruction i){
+		listeInstruction.add(i);
+	}
 	public void affectation2(String id,String id2){
 		boolean dec=false;
 		boolean par=false;
@@ -171,19 +174,22 @@ public class Fonction {
 		else if (par){
 			if(type.toString()=="INTEGER"){
 				listeParametre.get(position).setvInt(Integer.valueOf(value));
+			}
+			else if(type.toString()=="FLOAT"){
+					listeParametre.get(position).setvFloat(Float.valueOf(value));
+			}
+			else if(type.toString()=="BOOLEAN"){
+				listeParametre.get(position).setvBool(Boolean.valueOf(value));
+			}
+			else if(type.toString()=="CHARACTER") {
+				listeParametre.get(position).setvChar(value);
+			}
 		}
-		else if(type.toString()=="FLOAT"){
-				listeParametre.get(position).setvFloat(Float.valueOf(value));
-		}
-		else if(type.toString()=="BOOLEAN"){
-			listeParametre.get(position).setvBool(Boolean.valueOf(value));
-		}
-		else if(type.toString()=="CHARACTER") {
-			listeParametre.get(position).setvChar(value);
-		}
+		else{
+			System.out.println("Erreur d'affectation, vérifiez que la déclaration a bien été effectuée pour la variable "+ id);
 		}
 		
-		System.out.println("Affectation ok");
+		
 	}
 	public void ajouterDeclaration(Declaration d ){
 		System.out.println("declaration");

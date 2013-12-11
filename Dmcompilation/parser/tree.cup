@@ -7,7 +7,8 @@ action code{:
 	Langage lang=new Langage();
 	Fonction fonction=new Fonction();
 	Programme prog=new Programme();
-	int compteur=0;
+	boolean instructionG=false;
+	boolean instructionS=false;
 :}
 
 parser code {:
@@ -51,6 +52,7 @@ non terminal instruction;
 non terminal instructionfct;
 non terminal listefonction_declaration;
 non terminal instructionIFfct;
+non terminal debut_instruction_if;
 non terminal instructionFORfct;
 non terminal  instructionWHILEfct;
 non terminal  instructionAFFfct;
@@ -95,12 +97,13 @@ fonction ::= type:t ID:id LPAR listefonction_parametre RPAR LACC listefonction_d
 		
 				lang.ajouterFonction(fonction); 
 				fonction.clearListe();
+		
 			:}
 			;
 
 
 listefonction_instruction ::= instructionfct listefonction_instruction  
-		| 
+		|
 		;
 		
 listefonction_declaration ::= declaration:d listefonction_declaration {:  fonction.ajouterDeclaration(d); :}
@@ -120,10 +123,33 @@ instructionfct ::= instructionIFfct
 		| instructionWHILEfct 
 		;
 		
-instructionIFfct ::= IF LPAR liste_testIFfct RPAR LACC listefonction_instruction RACC 
-				|IF LPAR liste_testIFfct RPAR LACC listefonction_instruction RACC ELSE LACC listefonction_instruction RACC
+instructionIFfct ::= debut_instruction_if  listefonction_instruction RACC 
+					{: 
+							if(instructionS){
+								System.out.println("fin instruction secondaire");
+								instructionS=false;
+							}
+							else{
+								System.out.println("fin instruction globale");
+								instructionG=false;
+							}
+					
+					 :}
+				|debut_instruction_if listefonction_instruction RACC ELSE LACC listefonction_instruction RACC
 				;
 
+debut_instruction_if ::= IF LPAR liste_testIFfct RPAR LACC 
+						{: 
+							if(!instructionG){
+								System.out.println("debut instruction glob");
+								fonction.ajouterInstruction(new Instruction("if"));
+								instructionG=true;
+							}
+							else{
+								System.out.println("debut instruction sec");
+								instructionS=true;
+							}
+						 :};
 
 liste_testIFfct ::= liste_testIFfct operande:o liste_testIFfct
 		| testIFfct
@@ -139,7 +165,7 @@ testIFfct ::= ID comparateur:c ID
 		|ID EQ EQ BOOLEEN
 		;
 		
-instructionFORfct ::= FOR LPAR ID EQ NUMBER SEMIC testFORfct SEMIC ID PLUS PLUS RPAR LACC listefonction_instruction RACC{: compteur++; System.out.println("compteur : " +compteur); :};
+instructionFORfct ::= FOR LPAR ID EQ NUMBER SEMIC testFORfct SEMIC ID PLUS PLUS RPAR LACC listefonction_instruction RACC;
 
 instructionAFFfct ::= ID:id EQ ID:id2 SEMIC {: fonction.affectation2(id,id2);  :} 
 		| ID:id EQ NUMBER:v SEMIC{:  fonction.affectation(id,String.valueOf(v)); :} 

@@ -13,46 +13,61 @@ param ok
  Symbole : int Ligne : 4 Colonne : 2
  Symbole id: j Ligne : 4 Colonne : 6
  Symbole : ; Ligne : 4 Colonne : 7
- Symbole : if Ligne : 5 Colonne : 1
+ Symbole : if Ligne : 6 Colonne : 1
 declaration
 declaration ok
 declaration
 declaration ok
- Symbole : ( Ligne : 5 Colonne : 3
- Symbole id: i Ligne : 5 Colonne : 4
- Symbole EQ : = Ligne : 5 Colonne : 5
- Symbole EQ : = Ligne : 5 Colonne : 6
- Symbole : 0 Ligne : 5 Colonne : 7
- Symbole : ) Ligne : 5 Colonne : 8
- Symbole : { Ligne : 5 Colonne : 9
- Symbole : if Ligne : 7 Colonne : 2
- Symbole : ( Ligne : 7 Colonne : 4
- Symbole id: j Ligne : 7 Colonne : 5
- Symbole EQ : = Ligne : 7 Colonne : 6
- Symbole EQ : = Ligne : 7 Colonne : 7
- Symbole : 1 Ligne : 7 Colonne : 8
- Symbole : ) Ligne : 7 Colonne : 9
- Symbole : { Ligne : 7 Colonne : 10
- Symbole id: i Ligne : 8 Colonne : 3
- Symbole EQ : = Ligne : 8 Colonne : 4
- Symbole : 5 Ligne : 8 Colonne : 5
- Symbole : ; Ligne : 8 Colonne : 6
- Symbole : } Ligne : 9 Colonne : 2
+ Symbole : ( Ligne : 6 Colonne : 3
+ Symbole id: i Ligne : 6 Colonne : 4
+ Symbole EQ : = Ligne : 6 Colonne : 5
+ Symbole EQ : = Ligne : 6 Colonne : 6
+ Symbole : 5 Ligne : 6 Colonne : 7
+ Symbole : ) Ligne : 6 Colonne : 8
+ Symbole : { Ligne : 6 Colonne : 9
+ Symbole : if Ligne : 8 Colonne : 2
+debut instruction glob
+ Symbole : ( Ligne : 8 Colonne : 4
+ Symbole id: j Ligne : 8 Colonne : 5
+ Symbole EQ : = Ligne : 8 Colonne : 6
+ Symbole EQ : = Ligne : 8 Colonne : 7
+ Symbole : 4 Ligne : 8 Colonne : 8
+ Symbole : ) Ligne : 8 Colonne : 9
+ Symbole : { Ligne : 8 Colonne : 10
+ Symbole id: test Ligne : 9 Colonne : 3
+debut instruction sec
+ Symbole EQ : = Ligne : 9 Colonne : 7
+ Symbole : 1 Ligne : 9 Colonne : 8
+ Symbole : ; Ligne : 9 Colonne : 9
+ Symbole : } Ligne : 10 Colonne : 2
 Affectation
-5
-Affectation ok
-compteurp : 1
- Symbole : } Ligne : 10 Colonne : 1
-compteurm : 0
-compteurp : 1
- Symbole : return Ligne : 12 Colonne : 1
-compteurm : 0
-compteurp : 1
- Symbole id: test Ligne : 12 Colonne : 8
- Symbole : ; Ligne : 12 Colonne : 12
- Symbole : } Ligne : 13 Colonne : 0
- Symbole : main Ligne : 17 Colonne : 0
+1
+ Symbole : if Ligne : 12 Colonne : 2
+fin instruction secondaire
+ Symbole : ( Ligne : 12 Colonne : 4
+ Symbole id: j Ligne : 12 Colonne : 5
+ Symbole EQ : = Ligne : 12 Colonne : 6
+ Symbole EQ : = Ligne : 12 Colonne : 7
+ Symbole : 4 Ligne : 12 Colonne : 8
+ Symbole : ) Ligne : 12 Colonne : 9
+ Symbole : { Ligne : 12 Colonne : 10
+ Symbole id: test Ligne : 13 Colonne : 3
+debut instruction sec
+ Symbole EQ : = Ligne : 13 Colonne : 7
+ Symbole : 1 Ligne : 13 Colonne : 8
+ Symbole : ; Ligne : 13 Colonne : 9
+ Symbole : } Ligne : 14 Colonne : 2
+Affectation
+1
+ Symbole : } Ligne : 15 Colonne : 1
+fin instruction secondaire
+ Symbole : return Ligne : 19 Colonne : 1
+fin instruction globale
+ Symbole id: test Ligne : 19 Colonne : 8
+ Symbole : ; Ligne : 19 Colonne : 12
+ Symbole : } Ligne : 20 Colonne : 0
+ Symbole : main Ligne : 24 Colonne : 0
 clear
 clear ok
- Symbole : { Ligne : 17 Colonne : 5
- Symbole : } Ligne : 21 Colonne : 0
+ Symbole : { Ligne : 24 Colonne : 5
+ Symbole : } Ligne : 28 Colonne : 0
