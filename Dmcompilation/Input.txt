@@ -7,12 +7,18 @@ int fonction(int test){
 	if(i==5){
 	
 		if(j==4){
-			test=1;
+			if(j==4){
+				t=1;
+			}
 		}
 		
-		if(j==4){
-			test=1;
+	}
+	
+	if(j==5){
+		for(i=0;i<10;i++){
+			j=2;
 		}
+	
 	}
 	
 	

@@ -34,40 +34,73 @@ debut instruction glob
  Symbole : 4 Ligne : 8 Colonne : 8
  Symbole : ) Ligne : 8 Colonne : 9
  Symbole : { Ligne : 8 Colonne : 10
- Symbole id: test Ligne : 9 Colonne : 3
+ Symbole : if Ligne : 9 Colonne : 3
 debut instruction sec
+ Symbole : ( Ligne : 9 Colonne : 5
+ Symbole id: j Ligne : 9 Colonne : 6
  Symbole EQ : = Ligne : 9 Colonne : 7
- Symbole : 1 Ligne : 9 Colonne : 8
- Symbole : ; Ligne : 9 Colonne : 9
- Symbole : } Ligne : 10 Colonne : 2
+ Symbole EQ : = Ligne : 9 Colonne : 8
+ Symbole : 4 Ligne : 9 Colonne : 9
+ Symbole : ) Ligne : 9 Colonne : 10
+ Symbole : { Ligne : 9 Colonne : 11
+ Symbole id: t Ligne : 10 Colonne : 4
+debut instruction sec 2
+ Symbole EQ : = Ligne : 10 Colonne : 5
+ Symbole : 1 Ligne : 10 Colonne : 6
+ Symbole : ; Ligne : 10 Colonne : 7
+ Symbole : } Ligne : 11 Colonne : 3
 Affectation
 1
- Symbole : if Ligne : 12 Colonne : 2
+Erreur d'affectation, vérifiez que la déclaration a bien été effectuée pour la variable t
+fin instruction secondaire 2
+ Symbole : } Ligne : 12 Colonne : 2
 fin instruction secondaire
- Symbole : ( Ligne : 12 Colonne : 4
- Symbole id: j Ligne : 12 Colonne : 5
- Symbole EQ : = Ligne : 12 Colonne : 6
- Symbole EQ : = Ligne : 12 Colonne : 7
- Symbole : 4 Ligne : 12 Colonne : 8
- Symbole : ) Ligne : 12 Colonne : 9
- Symbole : { Ligne : 12 Colonne : 10
- Symbole id: test Ligne : 13 Colonne : 3
-debut instruction sec
- Symbole EQ : = Ligne : 13 Colonne : 7
- Symbole : 1 Ligne : 13 Colonne : 8
- Symbole : ; Ligne : 13 Colonne : 9
- Symbole : } Ligne : 14 Colonne : 2
-Affectation
-1
- Symbole : } Ligne : 15 Colonne : 1
-fin instruction secondaire
- Symbole : return Ligne : 19 Colonne : 1
+ Symbole : } Ligne : 14 Colonne : 1
 fin instruction globale
- Symbole id: test Ligne : 19 Colonne : 8
- Symbole : ; Ligne : 19 Colonne : 12
- Symbole : } Ligne : 20 Colonne : 0
- Symbole : main Ligne : 24 Colonne : 0
+ Symbole : if Ligne : 16 Colonne : 1
+ Symbole : ( Ligne : 16 Colonne : 3
+ Symbole id: j Ligne : 16 Colonne : 4
+ Symbole EQ : = Ligne : 16 Colonne : 5
+ Symbole EQ : = Ligne : 16 Colonne : 6
+ Symbole : 5 Ligne : 16 Colonne : 7
+ Symbole : ) Ligne : 16 Colonne : 8
+ Symbole : { Ligne : 16 Colonne : 9
+ Symbole : for Ligne : 17 Colonne : 2
+debut instruction glob
+ Symbole : ( Ligne : 17 Colonne : 5
+ Symbole id: i Ligne : 17 Colonne : 6
+ Symbole EQ : = Ligne : 17 Colonne : 7
+ Symbole : 0 Ligne : 17 Colonne : 8
+ Symbole : ; Ligne : 17 Colonne : 9
+ Symbole id: i Ligne : 17 Colonne : 10
+ Symbole : < Ligne : 17 Colonne : 11
+ Symbole : 10 Ligne : 17 Colonne : 12
+ Symbole : ; Ligne : 17 Colonne : 14
+ Symbole id: i Ligne : 17 Colonne : 15
+ Symbole : + Ligne : 17 Colonne : 16
+ Symbole : + Ligne : 17 Colonne : 17
+ Symbole : ) Ligne : 17 Colonne : 18
+ Symbole : { Ligne : 17 Colonne : 19
+ Symbole id: j Ligne : 18 Colonne : 3
+for
+debut instruction sec
+ Symbole EQ : = Ligne : 18 Colonne : 4
+ Symbole : 2 Ligne : 18 Colonne : 5
+ Symbole : ; Ligne : 18 Colonne : 6
+ Symbole : } Ligne : 19 Colonne : 2
+Affectation
+2
+fin instruction secondaire
+ Symbole : } Ligne : 21 Colonne : 1
+fin instruction globale
+ Symbole : return Ligne : 25 Colonne : 1
+fin instruction globale
+fin instruction globale
+ Symbole id: test Ligne : 25 Colonne : 8
+ Symbole : ; Ligne : 25 Colonne : 12
+ Symbole : } Ligne : 26 Colonne : 0
+ Symbole : main Ligne : 30 Colonne : 0
 clear
 clear ok
- Symbole : { Ligne : 24 Colonne : 5
- Symbole : } Ligne : 28 Colonne : 0
+ Symbole : { Ligne : 30 Colonne : 5
+ Symbole : } Ligne : 34 Colonne : 0

@@ -9,6 +9,7 @@ action code{:
 	Programme prog=new Programme();
 	boolean instructionG=false;
 	boolean instructionS=false;
+	boolean instructionS2=false;
 :}
 
 parser code {:
@@ -54,6 +55,7 @@ non terminal listefonction_declaration;
 non terminal instructionIFfct;
 non terminal debut_instruction_if;
 non terminal instructionFORfct;
+non terminal debut_instruction_for;
 non terminal  instructionWHILEfct;
 non terminal  instructionAFFfct;
 non terminal instructionAppel;
@@ -103,6 +105,23 @@ fonction ::= type:t ID:id LPAR listefonction_parametre RPAR LACC listefonction_d
 
 
 listefonction_instruction ::= instructionfct listefonction_instruction  
+		{: 
+							if(instructionS2){
+								System.out.println("fin instruction secondaire 2");
+								instructionS2=false;
+							}
+							else{
+								if(instructionS){
+									System.out.println("fin instruction secondaire");
+									instructionS=false;
+								}
+								else{
+									System.out.println("fin instruction globale");
+									instructionG=false;
+								}
+							}
+					
+					 :}
 		|
 		;
 		
@@ -124,17 +143,6 @@ instructionfct ::= instructionIFfct
 		;
 		
 instructionIFfct ::= debut_instruction_if  listefonction_instruction RACC 
-					{: 
-							if(instructionS){
-								System.out.println("fin instruction secondaire");
-								instructionS=false;
-							}
-							else{
-								System.out.println("fin instruction globale");
-								instructionG=false;
-							}
-					
-					 :}
 				|debut_instruction_if listefonction_instruction RACC ELSE LACC listefonction_instruction RACC
 				;
 
@@ -146,8 +154,16 @@ debut_instruction_if ::= IF LPAR liste_testIFfct RPAR LACC
 								instructionG=true;
 							}
 							else{
-								System.out.println("debut instruction sec");
-								instructionS=true;
+								if(!instructionS){
+									System.out.println("debut instruction sec");
+									instructionS=true;
+								}
+								else{
+									System.out.println("debut instruction sec 2");
+									instructionS2=true;
+								
+								}
+								
 							}
 						 :};
 
@@ -165,8 +181,30 @@ testIFfct ::= ID comparateur:c ID
 		|ID EQ EQ BOOLEEN
 		;
 		
-instructionFORfct ::= FOR LPAR ID EQ NUMBER SEMIC testFORfct SEMIC ID PLUS PLUS RPAR LACC listefonction_instruction RACC;
+instructionFORfct ::= debut_instruction_for listefonction_instruction RACC;
 
+debut_instruction_for ::= FOR LPAR ID EQ NUMBER SEMIC testFORfct SEMIC ID PLUS PLUS RPAR LACC
+						{: 
+							System.out.println("for");
+							if(!instructionG){
+								System.out.println("debut instruction glob");
+								fonction.ajouterInstruction(new Instruction("for"));
+								instructionG=true;
+							}
+							else{
+								if(!instructionS){
+									System.out.println("debut instruction sec");
+									instructionS=true;
+								}
+								else{
+									System.out.println("debut instruction sec 2");
+									instructionS2=true;
+								
+								}
+								
+							}
+						 :};
+						 
 instructionAFFfct ::= ID:id EQ ID:id2 SEMIC {: fonction.affectation2(id,id2);  :} 
 		| ID:id EQ NUMBER:v SEMIC{:  fonction.affectation(id,String.valueOf(v)); :} 
 		| ID:id EQ BOOLEEN:v SEMIC {:  fonction.affectation(id,String.valueOf(v)); :} 
