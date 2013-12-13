@@ -7,9 +7,19 @@ int fonction(int test){
 	if(i==5){
 	
 		if(j==4){
+		
 			if(j==4){
 				t=1;
 			}
+			
+		}
+		
+		if(j==4){
+		
+			if(j==4){
+				t=1;
+			}
+			
 		}
 		
 	}

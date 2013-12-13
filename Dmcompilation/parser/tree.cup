@@ -57,6 +57,7 @@ non terminal debut_instruction_if;
 non terminal instructionFORfct;
 non terminal debut_instruction_for;
 non terminal  instructionWHILEfct;
+non terminal debut_instruction_while;
 non terminal  instructionAFFfct;
 non terminal instructionAppel;
 non terminal  testFORfct;
@@ -115,7 +116,7 @@ listefonction_instruction ::= instructionfct listefonction_instruction
 									System.out.println("fin instruction secondaire");
 									instructionS=false;
 								}
-								else{
+								else if(instructionG){
 									System.out.println("fin instruction globale");
 									instructionG=false;
 								}
@@ -185,7 +186,7 @@ instructionFORfct ::= debut_instruction_for listefonction_instruction RACC;
 
 debut_instruction_for ::= FOR LPAR ID EQ NUMBER SEMIC testFORfct SEMIC ID PLUS PLUS RPAR LACC
 						{: 
-							System.out.println("for");
+						
 							if(!instructionG){
 								System.out.println("debut instruction glob");
 								fonction.ajouterInstruction(new Instruction("for"));
@@ -212,7 +213,29 @@ instructionAFFfct ::= ID:id EQ ID:id2 SEMIC {: fonction.affectation2(id,id2);  :
 		| ID:id EQ FLOTTANT:v SEMIC {:  fonction.affectation(id,String.valueOf(v)); :} 
 		;
 		
-instructionWHILEfct ::= WHILE LPAR liste_testIFfct RPAR LACC listefonction_instruction RACC;
+instructionWHILEfct ::= debut_instruction_while listefonction_instruction RACC;
+
+debut_instruction_while::= WHILE LPAR liste_testIFfct RPAR LACC
+			{: 
+							
+							if(!instructionG){
+								System.out.println("debut instruction glob");
+								fonction.ajouterInstruction(new Instruction("while"));
+								instructionG=true;
+							}
+							else{
+								if(!instructionS){
+									System.out.println("debut instruction sec");
+									instructionS=true;
+								}
+								else{
+									System.out.println("debut instruction sec 2");
+									instructionS2=true;
+								
+								}
+								
+							}
+						 :};
 
 
 		
